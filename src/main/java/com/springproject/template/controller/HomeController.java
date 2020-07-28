@@ -17,8 +17,6 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home() {
-		Optional<LoginUser> optional = loginDao.loadByEmail("moehtetoo@gmail.com");
-		
 		return "Api starting ..... ";
 	}
 	

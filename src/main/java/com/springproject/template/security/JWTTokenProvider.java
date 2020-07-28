@@ -17,18 +17,17 @@ public class JWTTokenProvider {
 	
 	private static long EXPIRATION_TIME = 12 * 60 * 60 * 1000;
 	private static SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-	private static String HEADER_STRING = "Authorization";
+	private static String HEADER_STRING = "moe-token";
 	private static String ISSUER = "template-app";
 	
 	public String generate(String username) {
-		Jwts.builder()
+		return Jwts.builder()
 		.setIssuedAt(new Date())
 		.setIssuer(ISSUER)
 		.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 		.setSubject(username)
 		.signWith(SECRET_KEY)
 		.compact();
-		return username;
 		
 	}
 	
@@ -39,7 +38,7 @@ public class JWTTokenProvider {
 			.requireIssuer(ISSUER)
 			.setSigningKey(SECRET_KEY)
 			.build()
-			.parseClaimsJws(HEADER_STRING)
+			.parseClaimsJws(reqToken)
 			.getBody().getSubject();
 		}
 		return null;
